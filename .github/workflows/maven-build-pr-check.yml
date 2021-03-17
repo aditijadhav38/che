@@ -33,13 +33,9 @@ jobs:
        distro: ${{ matrix.distro }}
        shell: /bin/bash
        run: |
-        ulimit -c unlimited
         apt-get update
-        apt-get install -y curl unzip sudo
-        sudo mkdir -p /opt/adoptj9/java
-        curl -SL -o adoptjdk.tar.gz https://github.com/AdoptOpenJDK/openjdk11-binaries/releases/download/jdk-11.0.10%2B9_openj9-0.24.0/OpenJDK11U-jdk_s390x_linux_openj9_11.0.10_9_openj9-0.24.0.tar.gz
-        sudo tar -zxvf adoptjdk.tar.gz -C /opt/adoptj9/java --strip-components 1
-        export JAVA_HOME=/opt/adoptj9/java
+        apt-get install -y curl unzip sudo openjdk-11-jdk
+        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x
         export PATH=$JAVA_HOME/bin:$PATH
         curl -sL https://www-eu.apache.org/dist/maven/maven-3/3.6.3/binaries/apache-maven-3.6.3-bin.zip -o maven.zip
         unzip -d /usr/share maven.zip
