@@ -34,7 +34,7 @@ jobs:
        shell: /bin/bash
        run: |
         apt-get update
-        apt-get install -y curl unzip sudo openjdk-11-jdk maven
+        apt-get install -y curl unzip sudo openjdk-11-jdk-headless maven
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x
         export PATH=$JAVA_HOME/bin:$PATH
         export MAVEN_OPTS="-Xmx2048m"
