@@ -38,4 +38,4 @@ jobs:
         export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x
         export PATH=$JAVA_HOME/bin:$PATH
         export MAVEN_OPTS="-Xmx2048m"
-        mvn -B -X clean install -U 
+        java -version 
