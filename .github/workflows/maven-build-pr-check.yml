@@ -35,9 +35,5 @@ jobs:
        run: |
         apt-get update
         apt-get --no-install-recommends install -y curl unzip sudo openjdk-11-jdk-headless maven
-        sudo apt-get purge ca-certificate-java
-        sudo apt-get install -f ca-certificate-java
-        export JAVA_HOME=/usr/lib/jvm/java-11-openjdk-s390x
-        export PATH=$JAVA_HOME/bin:$PATH
         export MAVEN_OPTS="-Xmx2048m"
         java -version 
