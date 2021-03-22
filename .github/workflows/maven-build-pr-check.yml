@@ -33,8 +33,7 @@ jobs:
        distro: ${{ matrix.distro }}
        shell: /bin/bash
        run: |
-        apt-get update
-        apt-get --no-install-recommends install -y curl unzip sudo maven wget 
+        apt-get install -y curl unzip sudo maven wget 
         export MAVEN_OPTS="-Xmx2048m"
         wget http://www.java.net/download/openjdk/jdk8/promoted/b132/openjdk-8-src-b132-03_mar_2014.zip
         unzip openjdk-8-src-b132-03_mar_2014.zip
