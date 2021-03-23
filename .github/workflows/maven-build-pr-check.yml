@@ -27,14 +27,15 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name : Build with Maven
-      uses: aditijadhav38/run-on-arch-action@master
+      uses: uraim/run-on-arch-action@master
       with:  
        arch: ${{ matrix.arch }}
        distro: ${{ matrix.distro }}
        shell: /bin/bash
-       run: |
+       install: |
         apt-get -q -y update
         apt-get install -q -y curl unzip wget maven
+       run: |
         export MAVEN_OPTS="-Xmx2048m"
         wget http://www.java.net/download/openjdk/jdk8/promoted/b132/openjdk-8-src-b132-03_mar_2014.zip
         unzip openjdk-8-src-b132-03_mar_2014.zip
