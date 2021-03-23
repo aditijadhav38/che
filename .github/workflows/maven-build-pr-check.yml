@@ -33,16 +33,15 @@ jobs:
        distro: ${{ matrix.distro }}
        shell: /bin/bash
        run: |
-        apt install -y git
-        git clone https://github.com/shevek/qemu-java
-        ./gradlew build
+        apt-get -q -y update
+        apt-get install -q -y curl unzip wget maven
         export MAVEN_OPTS="-Xmx2048m"
         wget http://www.java.net/download/openjdk/jdk8/promoted/b132/openjdk-8-src-b132-03_mar_2014.zip
         unzip openjdk-8-src-b132-03_mar_2014.zip
         cd openjdk/hotspot/src/share/tools/hsdis
         wget http://ftp.heanet.ie/mirrors/gnu/binutils/binutils-2.23.2.tar.gz
         tar -xzf binutils-2.23.2.tar.gz
-        sudo apt install -y libgmp-dev libmpfr-dev libmpc-dev g++-multilib
+        sudo apt-get install -q -y libgmp-dev libmpfr-dev libmpc-dev g++-multilib
         make BINUTILS=binutils-2.23.2 ARCH=s390x
         cp build/linux-s390x/hsdis-s390x.so ~/java8/jre/lib/s390x/server
         java -version
