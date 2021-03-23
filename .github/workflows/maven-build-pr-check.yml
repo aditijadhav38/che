@@ -27,7 +27,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name : Build with Maven
-      uses: uraimo/run-on-arch-action@2.0.9
+      uses: uraimo/run-on-arch-action@2.0.8
       with:  
        arch: ${{ matrix.arch }}
        distro: ${{ matrix.distro }}
