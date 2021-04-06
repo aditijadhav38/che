@@ -30,14 +30,6 @@ jobs:
     - uses: actions/setup-java@v1
       with:
         java-version: 11
-    - name: Cache local Maven repository
-      uses: actions/cache@v2
-      with:
-       path: ~/.m2/repository
-       key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-       restore-keys: |
-        ${{ runner.os }}-maven-  
-        
     - name : Build with Maven
       uses: uraimo/run-on-arch-action@v2.0.8
       with:  
@@ -45,5 +37,6 @@ jobs:
        distro: ${{ matrix.distro }}
        shell: /bin/bash
        run: |
+        mkdir -p /etc/ssl/certs/java
         apt-get update -y && apt-get install -y maven 
         mvn -B clean install -U -Pintegration
