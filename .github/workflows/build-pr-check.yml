@@ -9,15 +9,16 @@
 
 name: build-pr-check
 
-on: [push, pull_request]
+on: 
+  push:
+    branches:
+      - GA-s390x
 
 jobs:
   build:
     runs-on: ubuntu-20.04
     steps:
     - uses: actions/checkout@v2
-    - name: Check all properties have description
-      run: ./check_properties_description.sh
     - name: Cache local Maven repository
       uses: actions/cache@v2
       with:
@@ -31,3 +32,27 @@ jobs:
         java-version: 11
     - name: Build with Maven
       run: mvn -B clean install -U -Pintegration
+      
+  build-on-s390x:
+    runs-on: ubuntu-20.04
+    name: Build on ${{ matrix.distro }} ${{ matrix.arch }}
+    
+    strategy:
+      matrix:
+        include:
+          - arch: s390x
+            distro: ubuntu20.04
+    steps:
+    - uses: actions/checkout@v2
+    - uses: aditijadhav38/run-on-arch-action@master
+    - uses: actions/setup-java@v1
+      with:
+        java-version: 11
+    - name : Build with Maven
+      with:  
+       arch: ${{ matrix.arch }}
+       distro: ${{ matrix.distro }}
+       shell: /bin/bash
+       run: |
+        apt-get update -y && apt-get install -y maven 
+        mvn -B clean install -U -Pintegration
