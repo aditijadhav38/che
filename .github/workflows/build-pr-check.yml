@@ -28,9 +28,9 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/setup-java@v1
       with:
-        java-version: 13
+        java-version: 12
     - name : Build with Maven
-      uses: aditijadhav38/run-on-arch-action@master
+      uses: uraimo/run-on-arch-action@master
       with:  
        arch: ${{ matrix.arch }}
        distro: ${{ matrix.distro }}
