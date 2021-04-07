@@ -33,7 +33,7 @@ jobs:
        distro: ${{ matrix.distro }}
        shell: /bin/bash
        run: |
-        apt -get update -y 
+        apt-get update -y 
         apt-get install -y curl unzip sudo
         mkdir -p /opt/adoptopenjdk/java
         curl -SL -o adoptjdk.tar.gz https://github.com/AdoptOpenJDK/openjdk12-binaries/releases/download/jdk12u-2019-09-10-13-21/OpenJDK12U-jdk_s390x_linux_openj9_2019-09-10-13-21.tar.gz
