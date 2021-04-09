@@ -49,5 +49,5 @@ jobs:
         run: | 
             apt-get install -y selinux selinux-tools
             setenforce 0
-            docker run --rm -v .github/workflows/build-native-maven.sh:/work -t ${{ matrix.arch }}/ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
+            docker run --rm -v .github/workflows/build-native-maven.sh:/work ${{ matrix.arch }}/ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
   
