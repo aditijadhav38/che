@@ -46,5 +46,7 @@ jobs:
       - name: Pull docker image
         run: docker pull ${{ matrix.arch }}/ubuntu:20.04 || true
       - name: Build inside Docker
-        run: docker run --rm -v -p ${{ matrix.arch }}/ubuntu:20.04 .github/workflows/build-native-maven.sh 
+        run: | 
+            sudo setlinux 0
+            docker run --rm -v ${{ matrix.arch }}/ubuntu:20.04 .github/workflows/build-native-maven.sh 
   
