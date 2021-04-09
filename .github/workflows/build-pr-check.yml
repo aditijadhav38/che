@@ -44,7 +44,7 @@ jobs:
       - name: Restart Docker
         run: sudo systemctl restart docker.service
       - name: Pull docker image
-        run: docker pull --platform ${{ matrix.arch }}/ubuntu:20.04 || true
+        run: docker pull ${{ matrix.arch }}/ubuntu:20.04 || true
       - name: Build inside Docker
         run: docker run --rm -v $GITHUB_WORKSPACE:/work ${{ matrix.arch }}/ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
   
