@@ -47,7 +47,7 @@ jobs:
         run: docker pull ${{ matrix.arch }}/ubuntu:20.04 || true
       - name: Build inside Docker
         run: | 
-            sudo apt-get install -y selinux selinux-tools
+            sudo apt-get update -y && sudo apt-get install -y selinux selinux-tools
             setenforce 0
             docker run --rm -v .github/workflows/build-native-maven.sh:/work ${{ matrix.arch }}/ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
   
