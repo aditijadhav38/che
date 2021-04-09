@@ -21,24 +21,34 @@ jobs:
     
     strategy:
       matrix:
-        include:
-          - arch: s390x
-            distro: ubuntu20.04
+        arch:
+          - s390x
+          - amd64
+          
     steps:
-    - uses: actions/checkout@v2
-    - name : Build with Maven
-      uses: aditijadhav38/run-on-arch-action@master
-      with:  
-       arch: ${{ matrix.arch }}
-       distro: ${{ matrix.distro }}
-       shell: /bin/bash
-       run: |
-        apt-get update -y 
-        apt-get install -y curl unzip maven
-        mkdir -p /opt/adoptopenjdk/java
-        curl -SL -o adoptjdk.tar.gz https://github.com/AdoptOpenJDK/openjdk12-binaries/releases/download/jdk12u-2019-09-10-13-21/OpenJDK12U-jdk_s390x_linux_openj9_2019-09-10-13-21.tar.gz
-        tar -zxvf adoptjdk.tar.gz -C /opt/adoptopenjdk/java --strip-components 1
-        export JAVA_HOME=/opt/adoptopenjdk/java
-        export PATH=$JAVA_HOME/bin:$PATH
-        export MAVEN_OPTS="-Xmx2048m"
-        mvn -B -X clean install -U -Pintegration
+      - uses: actions/checkout@v2
+      - name: cache dependencies
+        uses: actions/cache@v1
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: set up java ${{ matrix.java-version }}
+        uses: actions/setup-java@v1.4.3
+        with:
+          java-version: 11
+      - uses: satackey/action-docker-layer-caching@v0.0.11
+        continue-on-error: true
+      - name: Update System
+        run: sudo apt-get update -y
+      - name: Install qemu
+        run: sudo apt-get install -y --no-install-recommends qemu-user-static
+      - name: Experimental Docker
+        run: sudo cp .github/experimental-docker.json /etc/docker/daemon.json
+      - name: Restart Docker
+        run: sudo systemctl restart docker.service
+      - name: Pull docker image
+        run: docker pull --platform $(echo ${{ matrix.arch }}
+      - name: Build inside Docker
+        run: docker run --rm -v $GITHUB_WORKSPACE:/work debian:10 /work/.github/build-native-maven.sh
+  
