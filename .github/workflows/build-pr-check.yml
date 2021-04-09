@@ -33,10 +33,6 @@ jobs:
           path: ~/.m2
           key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
           restore-keys: ${{ runner.os }}-m2
-      - name: set up java ${{ matrix.java-version }}
-        uses: actions/setup-java@v1.4.3
-        with:
-          java-version: 11
       - uses: satackey/action-docker-layer-caching@v0.0.11
         continue-on-error: true
       - name: Update System
@@ -48,7 +44,7 @@ jobs:
       - name: Restart Docker
         run: sudo systemctl restart docker.service
       - name: Pull docker image
-        run: docker pull --platform $(echo ${{ matrix.arch }})/ubuntu:20.04 || true
+        run: docker pull --platform ${{ matrix.arch }}/ubuntu:20.04 || true
       - name: Build inside Docker
-        run: docker run --rm -v $GITHUB_WORKSPACE:/work ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
+        run: docker run --rm -v $GITHUB_WORKSPACE:/work ${{ matrix.arch }}/ubuntu:20.04 /work/.github/workflows/build-native-maven.sh 
   
